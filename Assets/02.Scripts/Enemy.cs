@@ -6,30 +6,20 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] Transform[] wayPoints;
     [SerializeField] int curIndex = 0;
-    Coroutine patrolCo;
+    [SerializeField] EnemySpawner enemySpawner;
+    [SerializeField] int gold = 10;
     Patrolable patrolable;
+    Coroutine patrolCo;
 
-    private void Awake()
+    public void SetUp(EnemySpawner _enemySpawner, Transform[] _wayPoints)
     {
-        FindWayPoint();
         patrolable = GetComponent<Patrolable>();
-    }
+        enemySpawner = _enemySpawner;
+        wayPoints = new Transform[_wayPoints.Length];
+        wayPoints = _wayPoints;
 
-    private void Start()
-    {
         Patrol();
-    }
-
-    void FindWayPoint()
-    {
-        GameObject wayPointParentGo = GameObject.Find("[WayPoint]");        
-        Transform wayPointParent = wayPointParentGo.transform;
-        wayPoints = new Transform[wayPointParent.childCount];
-        for (int i = 0; i < wayPointParent.childCount; i++)
-        {
-            wayPoints[i] = wayPointParent.GetChild(i);
-        }
-    }
+    }    
 
     void Patrol()
     {
@@ -62,5 +52,10 @@ public class Enemy : MonoBehaviour
             curIndex = 0;
         Vector3 dir = (wayPoints[curIndex].position - transform.position).normalized;
         patrolable.MoveTo(dir);
+    }
+
+    public void Die()
+    {
+        enemySpawner.DestoryEnemy(this, gold);
     }
 }
