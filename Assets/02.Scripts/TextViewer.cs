@@ -23,8 +23,8 @@ public class TextViewer : MonoBehaviour
     private void Update()
     {
         playerGoldText.text = player.CurrentGold.ToString();
-        curEnemyCountText.text = $"{enemySpawner.CurrentEnemyCount}";
-        stageText.text = $"{gm.CurStageIndex} 라운드 시작까지";
+        curEnemyCountText.text = $"{enemySpawner.CurMapEnemyCount}";
+        stageText.text = $"{gm.CurStageIndex + 1} 라운드 시작까지";
         remainedTimeText.text = gm.remainedTimeStr;       
     }
 }

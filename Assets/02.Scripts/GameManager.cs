@@ -13,7 +13,7 @@ public struct Stage
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] int curStageIndex = 0;
+    [SerializeField] int curStageIndex = -1;
     [SerializeField] Stage[] stages;
     [SerializeField] float remainedTime;
     public string remainedTimeStr;
@@ -30,18 +30,22 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        StartCoroutine(CountDown());
+        StartCoroutine(CountDown(10));
     }
 
     public void StartStage()
     {
-        curStageIndex++;
-        GetEnemySpawner.Spawn();
+        if (curStageIndex < stages.Length - 1)
+        {
+            curStageIndex++;
+            GetEnemySpawner.Spawn(stages[curStageIndex]);
+            StartCoroutine(CountDown(stages[curStageIndex].stageTime));
+        }        
     }
 
-    IEnumerator CountDown()
+    IEnumerator CountDown(float stageTime)
     {
-        remainedTime = 10f;
+        remainedTime = stageTime;
         while (remainedTime > 0)
         {
             remainedTime -= Time.deltaTime;
@@ -55,8 +59,8 @@ public class GameManager : Singleton<GameManager>
             //remainedTimeStr = string.Format("{0:00}:{1:00}:{2:00}", hour, min, sec);
             yield return null;
         }
-        remainedTime = 0;
         remainedTimeStr = "00:00:00";
+        remainedTime = 0;
         StartStage();
     }
 

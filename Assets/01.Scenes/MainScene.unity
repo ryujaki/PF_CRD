@@ -172,7 +172,8 @@ MonoBehaviour:
     type: 3}
   hpCanvasTransform: {fileID: 2050469400}
   wayPoints: []
-  currentEnemyCount: 0
+  curStageEnemyMaxCount: 0
+  curMapEnemyCount: 0
   enemyList: []
 --- !u!1 &122759439
 GameObject:
@@ -951,8 +952,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1151e256ece21bb41b8c356c213fb8b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curStageIndex: 0
-  stages: []
+  curStageIndex: -1
+  stages:
+  - stageTime: 30
+    spawnTime: 1
+    maxEnemyCount: 10
+    enemyPrefabs:
+    - {fileID: 8292805970906747663, guid: 95278398c632e5b4db10ece38a6dd171, type: 3}
+  - stageTime: 30
+    spawnTime: 0.9
+    maxEnemyCount: 15
+    enemyPrefabs:
+    - {fileID: 8292805970906747663, guid: 87545299d2c1b4c48bb42fcffa47725e, type: 3}
   remainedTime: 0
   remainedTimeStr: 
   GetEnemySpawner: {fileID: 0}
@@ -1418,7 +1429,7 @@ GameObject:
   - component: {fileID: 1065448182}
   - component: {fileID: 1065448181}
   - component: {fileID: 1065448180}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1645,7 +1656,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00:05
+  m_text: 00:00:10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: daa18178e83385644aab0ed1998c5254, type: 2}
   m_sharedMaterial: {fileID: 5219735667101341172, guid: daa18178e83385644aab0ed1998c5254,
@@ -2108,7 +2119,7 @@ GameObject:
   - component: {fileID: 1751679015}
   - component: {fileID: 1751679014}
   - component: {fileID: 1751679013}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MainStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

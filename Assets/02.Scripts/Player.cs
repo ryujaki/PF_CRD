@@ -36,7 +36,8 @@ public class Player : Singleton<Player>
     public void SpawnUnit()
     {
         int randomIndex = Random.Range(0, unitPrefabs.Length);
-        Unit unit = Instantiate(unitPrefabs[randomIndex], unitSpawnPos);
+        //Unit unit = Instantiate(unitPrefabs[randomIndex], unitSpawnPos);
+        Unit unit = Instantiate(unitPrefabs[randomIndex]);
         units.Add(unit);
         unit.SetUp(GameManager.Instance.GetEnemySpawner);
     }
