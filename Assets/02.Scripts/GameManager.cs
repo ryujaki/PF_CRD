@@ -9,6 +9,7 @@ public struct Stage
     public float spawnTime;
     public int maxEnemyCount;
     public GameObject[] enemyPrefabs;
+    public int wispCount;
 }
 
 public class GameManager : Singleton<GameManager>
@@ -38,6 +39,7 @@ public class GameManager : Singleton<GameManager>
         if (curStageIndex < stages.Length - 1)
         {
             curStageIndex++;
+            Player.Instance.CurrentWisp += stages[curStageIndex].wispCount;
             GetEnemySpawner.Spawn(stages[curStageIndex]);
             StartCoroutine(CountDown(stages[curStageIndex].stageTime));
         }        

@@ -10,14 +10,37 @@ public class Unit : MonoBehaviour
     [SerializeField] float attackRange;
     [SerializeField] float attackDelay;
     [SerializeField] Transform target;
+    [SerializeField] bool isClicked = false;
+    public GameObject rangePrefab;
 
+    [SerializeField] Draggable draggable;
+
+    Coroutine curPlayingCo;
     [SerializeField] UnitState unitState = UnitState.Idle;
     [SerializeField] EnemySpawner enemySpawner;
+
+    private void Awake()
+    {
+        draggable = GetComponent<Draggable>();
+    }
 
     private void Update()
     {
         if (target != null)
             RotateToTarget();
+
+        if (draggable.IsClickedUnitExist && !isClicked)
+        { 
+            isClicked = true;
+            //GameObject go = Instantiate(rangePrefab, transform);
+            //go.transform.localScale = new Vector3(attackRange, 0.01f, attackRange);
+
+        }
+
+        if (target != null)
+        {
+            Debug.Log("거리 : " + Vector3.Distance(transform.position, target.transform.position));
+        }
     }
 
     void RotateToTarget()
@@ -37,9 +60,14 @@ public class Unit : MonoBehaviour
 
     void ChangeState(UnitState newState)
     {
-        StopCoroutine(unitState.ToString());
+        //StopCoroutine(unitState.ToString());
+        //unitState = newState;
+        //StartCoroutine(unitState.ToString());
+
+        if ( curPlayingCo != null)
+            StopCoroutine(curPlayingCo);
         unitState = newState;
-        StartCoroutine(unitState.ToString());
+        curPlayingCo = StartCoroutine(unitState.ToString());
     }
 
     IEnumerator Idle()
@@ -84,12 +112,15 @@ public class Unit : MonoBehaviour
                 break;
             }
 
-            EnemyHP enemyHP = target.GetComponent<EnemyHP>();
-            if (enemyHP != null)
-                enemyHP.TakeDamage(attackDamage);
+            // draggable
+            if (!draggable.IsOnDrag)
+            {
+                EnemyHP enemyHP = target.GetComponent<EnemyHP>();
+                if (enemyHP != null)
+                    enemyHP.TakeDamage(attackDamage);
+            }
+            
             yield return new WaitForSeconds(attackDelay);
         }
     }
-
-
 }

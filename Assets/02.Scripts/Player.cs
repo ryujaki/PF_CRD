@@ -7,6 +7,7 @@ public class Player : Singleton<Player>
     [SerializeField] Unit[] unitPrefabs;
     [SerializeField] List<Unit> units;
     [SerializeField] int currentGold = 100;
+    [SerializeField] int currentWisp = 2;
     [SerializeField] Transform unitSpawnPos;
 
     public int CurrentGold
@@ -14,6 +15,12 @@ public class Player : Singleton<Player>
         get => currentGold;
         set => currentGold = Mathf.Max(0, value);
     }    
+
+    public int CurrentWisp
+    {
+        get => currentWisp;
+        set => currentWisp = Mathf.Max(0, value);
+    }
 
     protected override void Awake()
     {
@@ -35,11 +42,16 @@ public class Player : Singleton<Player>
 
     public void SpawnUnit()
     {
-        int randomIndex = Random.Range(0, unitPrefabs.Length);
-        //Unit unit = Instantiate(unitPrefabs[randomIndex], unitSpawnPos);
-        Unit unit = Instantiate(unitPrefabs[randomIndex]);
-        units.Add(unit);
-        unit.SetUp(GameManager.Instance.GetEnemySpawner);
+        if (currentWisp > 0)
+        {
+            int randomIndex = Random.Range(0, unitPrefabs.Length);
+            //Unit unit = Instantiate(unitPrefabs[randomIndex], unitSpawnPos);
+            Unit unit = Instantiate(unitPrefabs[randomIndex]);
+            units.Add(unit);
+            unit.SetUp(GameManager.Instance.GetEnemySpawner);
+            currentWisp--;
+        }
+        
     }
 
     public void DestroyUnit(Unit unit)

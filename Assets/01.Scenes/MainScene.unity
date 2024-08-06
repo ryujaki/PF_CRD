@@ -639,14 +639,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5519369, y: 0, z: 0, w: 0.83388585}
-  m_LocalPosition: {x: 0, y: 8.4, z: -4.5}
+  m_LocalRotation: {x: 0.57593304, y: 0, z: 0, w: 0.8174969}
+  m_LocalPosition: {x: 0, y: 10, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 890165788}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 67, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 70.33, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,6 +723,7 @@ MonoBehaviour:
   unitPrefabs: []
   units: []
   currentGold: 100
+  currentWisp: 2
   unitSpawnPos: {fileID: 0}
 --- !u!4 &343524593
 Transform:
@@ -959,11 +960,13 @@ MonoBehaviour:
     maxEnemyCount: 10
     enemyPrefabs:
     - {fileID: 8292805970906747663, guid: 95278398c632e5b4db10ece38a6dd171, type: 3}
+    wispCount: 2
   - stageTime: 30
     spawnTime: 0.9
     maxEnemyCount: 15
     enemyPrefabs:
     - {fileID: 8292805970906747663, guid: 87545299d2c1b4c48bb42fcffa47725e, type: 3}
+    wispCount: 2
   remainedTime: 0
   remainedTimeStr: 
   GetEnemySpawner: {fileID: 0}

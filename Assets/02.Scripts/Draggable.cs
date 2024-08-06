@@ -7,6 +7,11 @@ public class Draggable : MonoBehaviour
     RaycastHit hit, hitFloor;
     GameObject dragAnchor;
     Vector3 mainCamPosition;
+    [SerializeField] Unit clickedUnit;
+    [SerializeField] bool isOnDrag = false;
+    public bool IsOnDrag => isOnDrag;
+
+    public bool IsClickedUnitExist => clickedUnit != null;
 
     void Start()
     {
@@ -15,8 +20,10 @@ public class Draggable : MonoBehaviour
 
     private void OnMouseUp()
     {
+        isOnDrag = false;
         transform.SetParent(null);
         Destroy(dragAnchor);
+        clickedUnit = null;
     }
 
     private void OnMouseDown()
@@ -24,6 +31,8 @@ public class Draggable : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
+            if (clickedUnit == null)
+                clickedUnit = gameObject.GetComponent<Unit>();
             dragAnchor = new GameObject("DragAnchor");
             dragAnchor.transform.position = hit.point;
             transform.SetParent(dragAnchor.transform);
@@ -32,6 +41,8 @@ public class Draggable : MonoBehaviour
 
     private void OnMouseDrag()
     {
+        isOnDrag = true;   
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hitFloor, Mathf.Infinity, LayerMask.GetMask("Floor")))
         {
