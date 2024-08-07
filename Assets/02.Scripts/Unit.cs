@@ -10,9 +10,7 @@ public class Unit : MonoBehaviour
     [SerializeField] float attackRange;
     [SerializeField] float attackDelay;
     [SerializeField] Transform target;
-    [SerializeField] bool isClicked = false;
-    public GameObject rangePrefab;
-
+    [SerializeField] GameObject rangeCanvasObj;
     [SerializeField] Draggable draggable;
 
     Coroutine curPlayingCo;
@@ -22,34 +20,34 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         draggable = GetComponent<Draggable>();
+        if (transform.GetChild(0) != null)
+        {
+            rangeCanvasObj = transform.GetChild(0).gameObject;
+            rangeCanvasObj.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        if (target != null)
+        if (target != null && !draggable.IsClickedUnitExist)
             RotateToTarget();
 
-        if (draggable.IsClickedUnitExist && !isClicked)
-        { 
-            isClicked = true;
-            //GameObject go = Instantiate(rangePrefab, transform);
-            //go.transform.localScale = new Vector3(attackRange, 0.01f, attackRange);
-
-        }
-
-        if (target != null)
+        if (draggable.IsClickedUnitExist)
         {
-            Debug.Log("거리 : " + Vector3.Distance(transform.position, target.transform.position));
+            if (rangeCanvasObj.activeSelf == false)
+                rangeCanvasObj.SetActive(true);
+        }            
+        else
+        {
+            if (rangeCanvasObj.activeSelf == true)
+                rangeCanvasObj.SetActive(false);
         }
     }
 
     void RotateToTarget()
     {
-        float dx = target.position.x - transform.position.x;
-        float dy = target.position.y - transform.position.y;
-
-        float degree = Mathf.Atan2(dy, dx) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, degree);
+        Vector3 dir = (target.position - transform.position).normalized;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 5 * Time.deltaTime);
     }   
 
     public void SetUp(EnemySpawner _enemySpawner)
@@ -60,10 +58,6 @@ public class Unit : MonoBehaviour
 
     void ChangeState(UnitState newState)
     {
-        //StopCoroutine(unitState.ToString());
-        //unitState = newState;
-        //StartCoroutine(unitState.ToString());
-
         if ( curPlayingCo != null)
             StopCoroutine(curPlayingCo);
         unitState = newState;
@@ -86,8 +80,11 @@ public class Unit : MonoBehaviour
                 }
             }
 
-            if (target != null)
-                ChangeState(UnitState.Attack);
+            if (!draggable.IsClickedUnitExist)
+            {
+                if (target != null)
+                    ChangeState(UnitState.Attack);
+            }
 
             yield return null;
         }
@@ -112,14 +109,13 @@ public class Unit : MonoBehaviour
                 break;
             }
 
-            // draggable
-            if (!draggable.IsOnDrag)
+            if (!draggable.IsClickedUnitExist)
             {
                 EnemyHP enemyHP = target.GetComponent<EnemyHP>();
                 if (enemyHP != null)
                     enemyHP.TakeDamage(attackDamage);
             }
-            
+
             yield return new WaitForSeconds(attackDelay);
         }
     }

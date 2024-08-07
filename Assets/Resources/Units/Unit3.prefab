@@ -124,9 +124,7 @@ MonoBehaviour:
   attackRange: 5
   attackDelay: 0.5
   target: {fileID: 0}
-  isClicked: 0
-  rangePrefab: {fileID: 8423899141453628704, guid: cba88c0b951e0cd4d8773149fed7f236,
-    type: 3}
+  rangeCanvasObj: {fileID: 0}
   draggable: {fileID: 0}
   unitState: 0
   enemySpawner: {fileID: 0}
@@ -152,6 +150,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6986633981863754601}
     m_Modifications:
+    - target: {fileID: 4314529543240169817, guid: 75aa8af5b0b788b42a7051a38defe7ec,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5401205394756133257, guid: 75aa8af5b0b788b42a7051a38defe7ec,
         type: 3}
       propertyPath: m_Name
