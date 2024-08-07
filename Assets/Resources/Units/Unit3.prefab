@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 1
   attackRange: 5
-  attackDelay: 0.5
+  attackDelay: 0.8
   target: {fileID: 0}
   rangeCanvasObj: {fileID: 0}
   draggable: {fileID: 0}

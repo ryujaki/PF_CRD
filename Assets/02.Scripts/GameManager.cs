@@ -31,6 +31,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        //Cursor.lockState = CursorLockMode.Confined;
         StartCoroutine(CountDown(10));
     }
 

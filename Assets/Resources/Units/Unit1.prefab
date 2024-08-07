@@ -122,9 +122,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 2
   attackRange: 3
-  attackDelay: 0.5
+  attackDelay: 1
   target: {fileID: 0}
-  isClicked: 0
+  rangeCanvasObj: {fileID: 0}
   draggable: {fileID: 0}
   unitState: 0
   enemySpawner: {fileID: 0}
