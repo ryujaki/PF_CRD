@@ -24,13 +24,21 @@ public class GameManager : Singleton<GameManager>
 
     public EnemySpawner GetEnemySpawner;
 
+    public Transform camPos0;
+    public Transform camPos1;
+
+    Camera mainCam;
+
     protected override void Awake()
     {
         base.Awake();
-    }
+        mainCam = Camera.main;
+}
 
     private void Start()
     {
+        CameraSetting(true);
+        Player.Instance.SpawnWisps();
         //Cursor.lockState = CursorLockMode.Confined;
         StartCoroutine(CountDown(10));
     }
@@ -41,6 +49,7 @@ public class GameManager : Singleton<GameManager>
         {
             curStageIndex++;
             Player.Instance.CurrentWisp += stages[curStageIndex].wispCount;
+            Player.Instance.SpawnWisps();
             GetEnemySpawner.Spawn(stages[curStageIndex]);
             StartCoroutine(CountDown(stages[curStageIndex].stageTime));
         }        
@@ -65,6 +74,18 @@ public class GameManager : Singleton<GameManager>
         remainedTimeStr = "00:00:00";
         remainedTime = 0;
         StartStage();
+    }
+
+    public void CameraSetting(bool isMainStage)
+    {
+        if (isMainStage)
+        {
+            mainCam.transform.SetLocalPositionAndRotation(camPos0.transform.position, camPos0.transform.rotation);
+        }
+        else
+        {
+            mainCam.transform.SetLocalPositionAndRotation(camPos1.transform.position, camPos1.transform.rotation);
+        }
     }
 
 }

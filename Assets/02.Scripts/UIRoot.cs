@@ -6,11 +6,13 @@ using TMPro;
 
 public class UIRoot : MonoBehaviour
 {
+    public Button MoveCamToMainStageButton;
     public Button drawingButton;
     public TextMeshProUGUI wispCountText;
 
     private void Awake()
     {
+        MoveCamToMainStageButton.onClick.AddListener(MoveCamToMainStageButtonClick);
         drawingButton.onClick.AddListener(DrawingButtonClick);
     }
 
@@ -19,8 +21,14 @@ public class UIRoot : MonoBehaviour
         wispCountText.text = Player.Instance.CurrentWisp.ToString();
     }
 
+    void MoveCamToMainStageButtonClick()
+    {
+        GameManager.Instance.CameraSetting(true);
+    }
+
+
     public void DrawingButtonClick()
     {
-        Player.Instance.SpawnUnit();
+        GameManager.Instance.CameraSetting(false);
     }
 }

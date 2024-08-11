@@ -6,6 +6,7 @@ using TMPro;
 public class TextViewer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI playerGoldText;
+    [SerializeField] TextMeshProUGUI playerTreeText;
     [SerializeField] TextMeshProUGUI curEnemyCountText;
     [SerializeField] TextMeshProUGUI stageText;
     [SerializeField] TextMeshProUGUI remainedTimeText;
@@ -23,6 +24,7 @@ public class TextViewer : MonoBehaviour
     private void Update()
     {
         playerGoldText.text = player.CurrentGold.ToString();
+        playerTreeText.text = player.CurrentTree.ToString();
         curEnemyCountText.text = $"{enemySpawner.CurMapEnemyCount}";
         stageText.text = $"{gm.CurStageIndex + 1} 라운드 시작까지";
         remainedTimeText.text = gm.remainedTimeStr;       

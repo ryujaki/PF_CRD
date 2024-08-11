@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 5600664412252325494}
   - component: {fileID: 2217363391848800945}
   - component: {fileID: 4347925131887498325}
-  - component: {fileID: -1861407785356764733}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Unit3
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -126,22 +125,10 @@ MonoBehaviour:
   target: {fileID: 0}
   rangeCanvasObj: {fileID: 0}
   draggable: {fileID: 0}
+  doMove: 0
+  arrivePos: {fileID: 0}
   unitState: 0
   enemySpawner: {fileID: 0}
---- !u!114 &-1861407785356764733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6703518119491735598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22775cd80c46e0147bfb1db4cc47bdd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clickedUnit: {fileID: 0}
-  isOnDrag: 0
 --- !u!1001 &976500540198337186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159,6 +146,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RangeCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401205394756133257, guid: 75aa8af5b0b788b42a7051a38defe7ec,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300909346539892572, guid: 75aa8af5b0b788b42a7051a38defe7ec,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8850437310141425630, guid: 75aa8af5b0b788b42a7051a38defe7ec,
         type: 3}

@@ -4,22 +4,31 @@ using UnityEngine;
 
 public enum UnitState { Idle, Attack}
 
+// 참고 : attackRange 1당 scale 0.24로 계산
+
 public class Unit : MonoBehaviour
-{
+{    
     [SerializeField] int attackDamage;
     [SerializeField] float attackRange;
     [SerializeField] float attackDelay;
     [SerializeField] Transform target;
     [SerializeField] GameObject rangeCanvasObj;
     [SerializeField] Draggable draggable;
+    
+    public Vector3 arrivePos = Vector3.zero;
 
-    Coroutine curPlayingCo;
     [SerializeField] UnitState unitState = UnitState.Idle;
     [SerializeField] EnemySpawner enemySpawner;
 
+    [SerializeField] bool doMove = false;
+    public bool DoMove
+    {
+        get => doMove;
+        set => doMove = value;
+    }
+
     private void Awake()
     {
-        draggable = GetComponent<Draggable>();
         if (transform.GetChild(0) != null)
         {
             rangeCanvasObj = transform.GetChild(0).gameObject;
@@ -29,18 +38,31 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
-        if (target != null && !draggable.IsClickedUnitExist)
+        if (target != null && !doMove)
             RotateToTarget();
 
-        if (draggable.IsClickedUnitExist)
+        if (Player.Instance.selectedUnit == this)
         {
             if (rangeCanvasObj.activeSelf == false)
                 rangeCanvasObj.SetActive(true);
-        }            
+        }
         else
         {
             if (rangeCanvasObj.activeSelf == true)
                 rangeCanvasObj.SetActive(false);
+        }
+
+        if (doMove)
+        {
+            target = null;
+            Vector3 dir = (arrivePos - transform.position).normalized;
+            // todo : moveSpeed 설정
+            transform.position += dir * 2f * Time.deltaTime;
+
+            if (Vector3.Distance(transform.position, arrivePos) < 0.05f)
+            {
+                doMove = false;
+            }
         }
     }
 
@@ -58,10 +80,9 @@ public class Unit : MonoBehaviour
 
     void ChangeState(UnitState newState)
     {
-        if ( curPlayingCo != null)
-            StopCoroutine(curPlayingCo);
+        StopCoroutine(unitState.ToString());
         unitState = newState;
-        curPlayingCo = StartCoroutine(unitState.ToString());
+        StartCoroutine(unitState.ToString());
     }
 
     IEnumerator Idle()
@@ -80,7 +101,7 @@ public class Unit : MonoBehaviour
                 }
             }
 
-            if (!draggable.IsClickedUnitExist)
+            if (!doMove)
             {
                 if (target != null)
                     ChangeState(UnitState.Attack);
@@ -109,7 +130,7 @@ public class Unit : MonoBehaviour
                 break;
             }
 
-            if (!draggable.IsClickedUnitExist)
+            if (!doMove)
             {
                 EnemyHP enemyHP = target.GetComponent<EnemyHP>();
                 if (enemyHP != null)

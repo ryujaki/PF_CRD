@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
     public GameObject enemyHPSliderPrefab;
     [SerializeField] Transform hpCanvasTransform;
     [SerializeField] Transform[] wayPoints;   
@@ -55,7 +54,6 @@ public class EnemySpawner : MonoBehaviour
 
         while (curStageEnemyMaxCount > 0)
         {
-            //GameObject enemyGo = Instantiate(enemyPrefab, transform);
             int enemyIndex = Random.Range(0, curStage.enemyPrefabs.Length);
             GameObject enemyGo = Instantiate(curStage.enemyPrefabs[enemyIndex], transform);
             Enemy enemy = enemyGo.GetComponent<Enemy>();
