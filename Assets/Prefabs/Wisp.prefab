@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7faefbe229b3947a997d2fa6522147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wispCanvasObj: {fileID: 0}
   arrivePos: {x: 0, y: 0, z: 0}
   doMove: 0
 --- !u!1001 &348356339419230113
