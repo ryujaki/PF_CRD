@@ -12,8 +12,8 @@ public class Unit : MonoBehaviour
     [SerializeField] float attackRange;
     [SerializeField] float attackDelay;
     [SerializeField] Transform target;
-    [SerializeField] GameObject rangeCanvasObj;
-    [SerializeField] Draggable draggable;
+    [SerializeField] GameObject unitCanvasObj;
+    [SerializeField] UnitCanvas unitCanvas;
     
     public Vector3 arrivePos = Vector3.zero;
 
@@ -29,11 +29,7 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        if (transform.GetChild(0) != null)
-        {
-            rangeCanvasObj = transform.GetChild(0).gameObject;
-            rangeCanvasObj.SetActive(false);
-        }
+        Bind();
     }
 
     private void Update()
@@ -41,16 +37,16 @@ public class Unit : MonoBehaviour
         if (target != null && !doMove)
             RotateToTarget();
 
-        if (Player.Instance.selectedUnit == this)
-        {
-            if (rangeCanvasObj.activeSelf == false)
-                rangeCanvasObj.SetActive(true);
-        }
-        else
-        {
-            if (rangeCanvasObj.activeSelf == true)
-                rangeCanvasObj.SetActive(false);
-        }
+        //if (Player.Instance.selectedUnit == this)
+        //{
+        //    if (unitCanvasObj.activeSelf == false)
+        //        unitCanvasObj.SetActive(true);
+        //}
+        //else
+        //{
+        //    if (unitCanvasObj.activeSelf == true)
+        //        unitCanvasObj.SetActive(false);
+        //}
 
         if (doMove)
         {
@@ -65,6 +61,23 @@ public class Unit : MonoBehaviour
             }
         }
     }
+
+    void Bind()
+    {
+        if (unitCanvas == null)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.name.Equals("UnitCanvas"))
+                {
+                    unitCanvasObj = child.gameObject;
+                    unitCanvas = child.GetComponent<UnitCanvas>();
+                }
+            }
+        }
+    }
+
+    public void UnitCanvasActivate(bool value) => unitCanvasObj.SetActive(value);
 
     void RotateToTarget()
     {

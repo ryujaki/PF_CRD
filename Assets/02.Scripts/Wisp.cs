@@ -4,26 +4,33 @@ using UnityEngine;
 
 public class Wisp : MonoBehaviour
 {
+    GameObject wispCanvasObj;
     public Vector3 arrivePos = Vector3.zero;
     [SerializeField] bool doMove = false;
+
     public bool DoMove
     {
         get => doMove;
         set => doMove = value;
     }
 
+    private void Awake()
+    {
+        Bind();
+    }
+
     private void Update()
-    {        
-        //if (Player.Instance.selectedUnit == this)
-        //{
-        //    if (rangeCanvasObj.activeSelf == false)
-        //        rangeCanvasObj.SetActive(true);
-        //}
-        //else
-        //{
-        //    if (rangeCanvasObj.activeSelf == true)
-        //        rangeCanvasObj.SetActive(false);
-        //}
+    {
+        if (Player.Instance.selectedWisp == this)
+        {
+            if (wispCanvasObj.activeSelf == false)
+                wispCanvasObj.SetActive(true);
+        }
+        else
+        {
+            if (wispCanvasObj.activeSelf == true)
+                wispCanvasObj.SetActive(false);
+        }
 
         if (doMove)
         {
@@ -36,6 +43,21 @@ public class Wisp : MonoBehaviour
                 doMove = false;
             }
         }        
+    }
+
+    void Bind()
+    {
+        if (wispCanvasObj == null)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.name.Equals("WispCanvas"))
+                {
+                    wispCanvasObj = child.gameObject;
+                    wispCanvasObj.SetActive(false);
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)

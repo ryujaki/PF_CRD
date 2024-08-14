@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : Singleton<Player>
 {
     [SerializeField] Unit[] unitPrefabs;
-    [SerializeField] List<Unit> units;
+    public List<Unit> spawnedUnits;
     [SerializeField] GameObject wispPrefab;
     [SerializeField] List<GameObject> wisps;
     [SerializeField] int currentGold = 100;
@@ -15,6 +15,8 @@ public class Player : Singleton<Player>
     public Unit selectedUnit;
     public Enemy selectedEnemy;
     public Wisp selectedWisp;
+
+    public List<Unit> selectedUnits = new List<Unit>();
 
     public int CurrentGold
     {
@@ -44,7 +46,7 @@ public class Player : Singleton<Player>
         FindSpawnPos();
         GetUnits();
         LayerSetting();
-        units = new List<Unit>();
+        spawnedUnits = new List<Unit>();
         wisps = new List<GameObject>();
     }
 
@@ -75,7 +77,7 @@ public class Player : Singleton<Player>
             int randomIndex = Random.Range(0, unitPrefabs.Length);
             //Unit unit = Instantiate(unitPrefabs[randomIndex], unitSpawnPos);
             Unit unit = Instantiate(unitPrefabs[randomIndex]);
-            units.Add(unit);
+            spawnedUnits.Add(unit);
             unit.SetUp(GameManager.Instance.GetEnemySpawner);
             currentWisp--;
         }        
@@ -83,7 +85,7 @@ public class Player : Singleton<Player>
 
     public void DestroyUnit(Unit unit)
     {
-        units.Remove(unit);
+        spawnedUnits.Remove(unit);
         Destroy(unit);
     }
 
